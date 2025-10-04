@@ -1,0 +1,145 @@
+[
+  {
+    "id": 1,
+    "perfil": "Gestante",
+    "icone": "gestante.png",
+    "pergunta": "Na gravidez, sinto muito medo de cair quando preciso subir ou descer em locais públicos, pois não tenho onde me apoiar.",
+    "respostaCorretaID": 1,
+    "opcoes": [
+      { "objetoID": 1, "nome": "Corrimão" },
+      { "objetoID": 5, "nome": "Barra de Apoio" },
+      { "objetoID": 7, "nome": "Rampa de Acesso" },
+      { "objetoID": 2, "nome": "Assento Comum" }
+    ]
+  },
+  {
+    "id": 2,
+    "perfil": "Idoso",
+    "icone": "idoso.png",
+    "pergunta": "Com a idade que tenho hoje, fico sem lugar para descansar ou com meu bebê no colo, é exaustivo se não houver um lugar adequado para sentar.",
+    "respostaCorretaID": 3,
+    "opcoes": [
+      { "objetoID": 3, "nome": "Assento Reservado" },
+      { "objetoID": 2, "nome": "Assento Comum" },
+      { "objetoID": 6, "nome": "Cadeira para Obesos" },
+      { "objetoID": 1, "nome": "Corrimão" }
+    ]
+  },
+  {
+    "id": 3,
+    "perfil": "Obeso",
+    "icone": "obeso.png",
+    "pergunta": "Sempre passo dificuldade para entrar em lugares porque as entradas e as portas são muito estreitas para mim.",
+    "respostaCorretaID": 4,
+    "opcoes": [
+      { "objetoID": 4, "nome": "Porta Acessível" },
+      { "objetoID": 5, "nome": "Barra de Apoio" },
+      { "objetoID": 7, "nome": "Rampa de Acesso" },
+      { "objetoID": 9, "nome": "Sinalização em Braille/Relevo" }
+    ]
+  },
+  {
+    "id": 4,
+    "perfil": "Cadeirante",
+    "icone": "cadeirante.png",
+    "pergunta": "Nos banheiros públicos ou rampas curtas, sinto-me sem segurança, pois não existe apoio firme para me levantar ou me locomover.",
+    "respostaCorretaID": 5,
+    "opcoes": [
+      { "objetoID": 5, "nome": "Barra de Apoio" },
+      { "objetoID": 1, "nome": "Corrimão" },
+      { "objetoID": 11, "nome": "Semáforos Sonoros" },
+      { "objetoID": 4, "nome": "Porta Acessível" }
+    ]
+  },
+  {
+    "id": 5,
+    "perfil": "Obeso",
+    "icone": "obeso.png",
+    "pergunta": "Eu estou cansado de procurar um lugar para sentar e nunca encontrar algo adequado ao meu tamanho e peso.",
+    "respostaCorretaID": 6,
+    "opcoes": [
+      { "objetoID": 6, "nome": "Cadeira para Obesos" },
+      { "objetoID": 3, "nome": "Assento Reservado" },
+      { "objetoID": 2, "nome": "Assento Comum" },
+      { "objetoID": 5, "nome": "Barra de Apoio" }
+    ]
+  },
+  {
+    "id": 6,
+    "perfil": "Cadeirante",
+    "icone": "cadeirante.png",
+    "pergunta": "Com minha cadeira de rodas, até um pequeno degrau ou desnível vira um obstáculo intransponível, impedindo meu acesso ao parque.",
+    "respostaCorretaID": 7,
+    "opcoes": [
+      { "objetoID": 7, "nome": "Rampa de Acesso" },
+      { "objetoID": 1, "nome": "Corrimão" },
+      { "objetoID": 4, "nome": "Porta Acessível" },
+      { "objetoID": 5, "nome": "Barra de Apoio" }
+    ]
+  },
+  {
+    "id": 7,
+    "perfil": "Deficiente Visual",
+    "icone": "deficiente_visual.png",
+    "pergunta": "É um perigo andar sem um guia. Preciso de algum recurso que me informe sobre mudanças de direção ou obstáculos perigosos no chão.",
+    "respostaCorretaID": 8,
+    "opcoes": [
+      { "objetoID": 8, "nome": "Piso Tátil de Alerta" },
+      { "objetoID": 9, "nome": "Sinalização em Braille/Relevo" },
+      { "objetoID": 11, "nome": "Semáforos Sonoros" },
+      { "objetoID": 1, "nome": "Corrimão" }
+    ]
+  },
+  {
+    "id": 8,
+    "perfil": "Deficiente Visual",
+    "icone": "deficiente_visual.png",
+    "pergunta": "Não consigo me orientar pelos painéis informativos do parque, pois eles não possuem nada que eu possa ler com as mãos.",
+    "respostaCorretaID": 9,
+    "opcoes": [
+      { "objetoID": 9, "nome": "Sinalização em Braille/Relevo" },
+      { "objetoID": 8, "nome": "Piso Tátil de Alerta" },
+      { "objetoID": 1, "nome": "Corrimão" },
+      { "objetoID": 4, "nome": "Porta Acessível" }
+    ]
+  },
+  {
+    "id": 9,
+    "perfil": "Lactante",
+    "icone": "lactante.png",
+    "pergunta": "Durante a gestação e após o parto, sinto falta de um ambiente seguro e tranquilo para cuidar de mim e do meu bebê em locais públicos.",
+    "respostaCorretaID": 10,
+    "opcoes": [
+      { "objetoID": 10, "nome": "Sala de Amamentação" },
+      { "objetoID": 3, "nome": "Assento Reservado" },
+      { "objetoID": 4, "nome": "Porta Acessível" },
+      { "objetoID": 5, "nome": "Barra de Apoio" }
+    ]
+  },
+  {
+    "id": 10,
+    "perfil": "Deficiente Visual",
+    "icone": "deficiente_visual.png",
+    "pergunta": "Ao atravessar ruas movimentadas perto do parque, sinto muito medo porque não há nada que me indique o momento certo de forma audível.",
+    "respostaCorretaID": 11,
+    "opcoes": [
+      { "objetoID": 11, "nome": "Semáforos Sonoros" },
+      { "objetoID": 8, "nome": "Piso Tátil de Alerta" },
+      { "objetoID": 9, "nome": "Sinalização em Braille/Relevo" },
+      { "objetoID": 7, "nome": "Rampa de Acesso" }
+    ]
+  },
+  {
+    "id": 11,
+    "perfil": "Comum",
+    "icone": "idoso.png",
+    "pergunta": "As áreas de descanso do parque estão em péssimo estado, e os assentos existentes são desconfortáveis ou quebrados. É preciso substituir o básico.",
+    "respostaCorretaID": 2,
+    "opcoes": [
+      { "objetoID": 2, "nome": "Assento Comum" },
+      { "objetoID": 3, "nome": "Assento Reservado" },
+      { "objetoID": 5, "nome": "Barra de Apoio" },
+      { "objetoID": 1, "nome": "Corrimão" }
+    ]
+  }
+]

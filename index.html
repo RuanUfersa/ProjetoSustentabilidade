@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acessibilidade para Todos | ODS 11.7</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <main id="game-container">
+        
+        <header id="hud-bar">
+            <div class="hud-item">
+                <span class="label">Tempo:</span>
+                <span id="timer" class="value">15s</span> </div>
+            <div class="hud-item">
+                <span class="label">Saldo:</span>
+                <span id="saldo" class="value">R$ 10.000,00</span> </div>
+            <div class="hud-item">
+                <span class="label">Satisfação:</span>
+                <span id="satisfacao" class="value">0 PONTOS</span> </div>
+        </header>
+        
+        <div id="acessibilidade-progress-bar">
+            <div id="progress-fill"></div>
+            <span class="label">Índice de Acessibilidade: 0%</span>
+        </div>
+
+        <section id="scenario-area">
+            <img id="park-image" src="assets/images/parque_entrada.jpg" alt="Imagem do Parque Público">
+            
+            <div id="question-box">
+                <img id="profile-icon" src="" alt="Ícone do Perfil">
+                <p id="question-text">Carregando pergunta...</p>
+                <div id="feedback-message"></div>
+            </div>
+        </section>
+
+        <section id="options-area">
+            </section>
+        
+        <div id="game-over-screen" class="hidden">
+            <h2>VITÓRIA! 100% de Acessibilidade Atingida!</h2>
+            <p>Seu Saldo Final: <span id="final-saldo"></span></p>
+            <p>Sua Satisfação Final: <span id="final-satisfacao"></span></p>
+        </div>
+
+    </main>
+
+    <script src="src/app.js" type="module"></script>
+    <script src="src/timer.js" type="module"></script>
+    <script src="src/calc.js" type="module"></script>
+</body>
+</html>
