@@ -1,35 +1,17 @@
 // src/calc.js
-import { gameState } from './app.js'; // Importa o estado do jogo para alteração
-
-// ----------------------------------------------------------------------
-// CATÁLOGO DE OBJETOS (Custo e Pontuação) - REF: Regras/valores/Requisitos - Regras/Valores.csv
-// ----------------------------------------------------------------------
-const catalogo = [
-    { id: 1, nome: "Corrimão", pontuacao: 50, custo: 500.00 },
-    { id: 2, nome: "Assento Comum", pontuacao: 20, custo: 200.00 },
-    { id: 3, nome: "Assento Reservado", pontuacao: 40, custo: 400.00 },
-    { id: 4, nome: "Porta Acessível", pontuacao: 50, custo: 500.00 },
-    { id: 5, nome: "Barra de Apoio", pontuacao: 30, custo: 300.00 },
-    { id: 6, nome: "Cadeira para Obesos", pontuacao: 50, custo: 500.00 },
-    { id: 7, nome: "Rampa de Acesso", pontuacao: 80, custo: 1200.00 },
-    { id: 8, nome: "Piso Tátil de Alerta", pontuacao: 60, custo: 600.00 },
-    { id: 9, nome: "Sinalização em Braille/Relevo", pontuacao: 40, custo: 400.00 },
-    { id: 10, nome: "Sala de Amamentação", pontuacao: 100, custo: 3000.00 },
-    { id: 11, nome: "Semáforos Sonoros", pontuacao: 70, custo: 900.00 }
-];
-
-const getObjetoDetalhes = (id) => catalogo.find(item => item.id === id);
-
+// Importa o estado do jogo e o catálogo de objetos do app.js
+import { gameState, getObjetoDetalhes } from './app.js'; // AGORA IMPORTA getObjetoDetalhes!
 
 /**
  * Calcula e atualiza o Saldo e a Satisfação do jogador com base na resposta.
  * @param {number} respostaCorretaID - ID do objeto que deveria ter sido escolhido.
  * @param {string} classification - Classificação do tempo ('RÁPIDA', 'LENTA', 'ESGOTADO').
  * @param {boolean} isCorrect - Se a resposta selecionada é a correta.
- * @returns {object} Um objeto contendo a mensagem de feedback e o saldo/satisfação alterados.
+ * @returns {object} Um objeto contendo a mensagem de feedback, o resultado e o status de Fim de Jogo.
  */
 export function calculateScore(respostaCorretaID, classification, isCorrect) {
     
+    // Obtém os detalhes do objeto correto usando a função importada
     const objetoCorreto = getObjetoDetalhes(respostaCorretaID);
     const custoCorreto = objetoCorreto.custo;
     const pontuacaoCorreta = objetoCorreto.pontuacao;
@@ -37,27 +19,26 @@ export function calculateScore(respostaCorretaID, classification, isCorrect) {
     let message = '';
     let saldoChange = 0;
     let satisfacaoChange = 0;
+    let gameOver = false;
 
     // --- CÁLCULO PARA RESPOSTA CORRETA ---
     if (isCorrect) {
         
         // 1. DÉBITO DO CUSTO (RF04)
-        saldoChange = -custoCorreto; // Sempre debita o custo
+        saldoChange = -custoCorreto; 
         
         // 2. AUMENTO DA SATISFAÇÃO (RF05)
         satisfacaoChange = pontuacaoCorreta;
         
-        message = `CORRETO e ${classification}!`;
-
         if (classification === 'RÁPIDA') {
-            // BÔNUS DE SALDO (Regra: Pontuação_Satisfação × 0.5 × Custo_Objeto)
-            const bonus = pontuacaoCorreta * 0.5 * custoCorreto;
-            saldoChange += bonus;
-            message += ` + BÔNUS DE R$ ${bonus.toFixed(2).replace('.', ',')}!`;
+            // RF04: BÔNUS DE SALDO (Regra: Pontuação_Satisfação × 0.5 × Custo_Objeto)
+            const bonusValue = pontuacaoCorreta * 0.5 * custoCorreto;
+            saldoChange += bonusValue;
+            message = `CORRETO e RÁPIDO! + BÔNUS de R$ ${bonusValue.toFixed(2).replace('.', ',')}.`;
 
         } else if (classification === 'LENTA') {
             // Sem bônus ou penalidade adicional
-            message += ' (Sem bônus)';
+            message = `CORRETO, mas LENTO. Pontos de acessibilidade ganhos.`;
         }
     
     // --- CÁLCULO PARA RESPOSTA INCORRETA OU TEMPO ESGOTADO ---
@@ -72,23 +53,30 @@ export function calculateScore(respostaCorretaID, classification, isCorrect) {
         satisfacaoChange = -pontuacaoCorreta; 
 
         if (classification === 'ESGOTADO') {
-            message = `TEMPO ESGOTADO! Penalidade de R$ ${custoCorreto.toFixed(2).replace('.', ',')} no saldo.`;
+            message = `TEMPO ESGOTADO! Penalidade de R$ ${custoCorreto.toFixed(2).replace('.', ',')} no saldo e perda de satisfação.`;
         } else {
-            message = `INCORRETO! Penalidade de R$ ${custoCorreto.toFixed(2).replace('.', ',')} no saldo.`;
+            message = `INCORRETO! Penalidade de R$ ${custoCorreto.toFixed(2).replace('.', ',')} no saldo e perda de satisfação.`;
         }
     }
     
-    // 3. ATUALIZAÇÃO DO ESTADO GLOBAL (RF04, RF05)
+    // 3. ATUALIZAÇÃO DO ESTADO GLOBAL
     gameState.saldo += saldoChange;
     gameState.satisfacao += satisfacaoChange;
 
-    // O Saldo pode ser negativo (Dúvida 2: Opção A)
-    // A Satisfação pode ser negativa.
+    // 4. VERIFICAÇÃO DE FALÊNCIA (RF04 - Condição de Fim de Jogo)
+    if (gameState.saldo < 0) {
+        gameOver = true;
+        message = "FALÊNCIA! Seu saldo ficou negativo. FIM DE JOGO.";
+    }
+
+    // Garante que a Satisfação não fique negativa (boa prática)
+    if (gameState.satisfacao < 0) {
+        gameState.satisfacao = 0;
+    }
 
     return {
         message: message,
         isCorrect: isCorrect,
-        classification: classification,
-        pontuacao: satisfacaoChange
+        gameOver: gameOver // Retorna o status de Fim de Jogo
     };
 }
