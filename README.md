@@ -47,6 +47,7 @@ O jogo é composto por 11 cenários, nos quais diferentes perfis de usuários (g
 | :--: | :--- | :--- |
 | **RF01** | Cenários | Exibe o perfil do usuário, o ícone correspondente e a pergunta. |
 | **RF02** | Cronômetro | Contagem regressiva de 15 segundos para resposta. Classifica o tempo como "RÁPIDO" (≤ 7s) ou "LENTO" (> 7s). |
+| **RF03** | Selecionar Resposta | O sistema deve exibir as opções de resposta disponíveis (objetos de acessibilidade) e permitir que o jogador selecione uma delas. |
 | **RF04** | Gestão de Saldo | O Saldo inicial é de R$ 10.000,00. **Correta/Incorreta:** Débito do Custo do Objeto Correto. **Bônus RÁPIDO:** Saldo recebe bônus por acerto rápido. **Fim de Jogo:** O Saldo negativo encerra o jogo por Falência. |
 | **RF05** | Satisfação | **Correta:** Aumenta pela Pontuação do Objeto Correto. **Incorreta/Esgotado:** Diminui pela Pontuação do Objeto Correto. |
 | **RF06** | Acessibilidade | Aumenta em `(100 / Total de Cenários)` por acerto correto. **Vitória:** 100% encerra o jogo. |
