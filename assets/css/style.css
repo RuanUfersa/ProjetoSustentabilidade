@@ -17,6 +17,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
+    position: relative; /* Importante para z-index, embora a pausa seja fixed */
 }
 
 /* HUD (RUI01) */
@@ -28,12 +29,32 @@ body {
     color: #ecf0f1;
     font-size: 1.1em;
     font-weight: bold;
+    /* Adicionado: Garante que os itens, incluindo o botão, estejam centralizados verticalmente */
+    align-items: center; 
 }
 
 .hud-item .label {
     margin-right: 5px;
     color: #bdc3c7; /* Cinza claro */
 }
+
+/* BOTÃO DE PAUSA (RF09) */
+#pause-button {
+    background-color: #e67e22; /* Laranja */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    font-size: 0.9em;
+}
+
+#pause-button:hover {
+    background-color: #d35400; /* Laranja mais escuro no hover */
+}
+
 
 /* BARRA DE ACESSIBILIDADE (RF06) */
 #acessibilidade-progress-bar {
@@ -159,6 +180,37 @@ body {
     z-index: 100;
 }
 
+/* ---------------------------------------------------- */
+/* RF09: TELA DE PAUSA */
+/* ---------------------------------------------------- */
+#pause-screen {
+    /* Configurações de sobreposição (o mesmo que a tela de Game Over) */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo um pouco mais claro que o game over */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 101; /* Z-index um pouco maior para garantir que cubra tudo */
+    backdrop-filter: blur(5px); /* Efeito sutil de desfoque */
+    text-align: center;
+}
+
+.pause-content h2 {
+    font-size: 2.5em;
+    color: #3498db; /* Destaque em azul */
+    margin-bottom: 10px;
+}
+
+.pause-content p {
+    font-size: 1.2em;
+}
+
 .hidden {
     display: none !important;
 }
@@ -166,13 +218,21 @@ body {
 /* RESPONSIVIDADE (RNF02) */
 @media (max-width: 768px) {
     #hud-bar {
-        flex-direction: column;
-        gap: 5px;
+        /* Permite que o botão de pause flua melhor */
+        flex-wrap: wrap; 
+        gap: 10px;
     }
     .hud-item {
-        width: 100%;
+        width: 45%; /* Itens ocupam metade da largura em telas menores */
         text-align: center;
     }
+    /* O botão de pause pode ocupar 100% ou metade, dependendo do design. 
+       Aqui, ele se ajusta ao item padrão: */
+    #pause-button {
+        width: 45%;
+        margin: 0 auto;
+    }
+
     #scenario-area {
         height: 300px;
     }

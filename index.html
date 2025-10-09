@@ -13,13 +13,18 @@
         <header id="hud-bar">
             <div class="hud-item">
                 <span class="label">Tempo:</span>
-                <span id="timer" class="value">15s</span> </div>
+                <span id="timer" class="value">15s</span>
+            </div>
             <div class="hud-item">
                 <span class="label">Saldo:</span>
-                <span id="saldo" class="value">R$ 10.000,00</span> </div>
+                <span id="saldo" class="value">R$ 10.000,00</span>
+            </div>
             <div class="hud-item">
                 <span class="label">Satisfação:</span>
-                <span id="satisfacao" class="value">0 PONTOS</span> </div>
+                <span id="satisfacao" class="value">0 PONTOS</span>
+            </div>
+            
+            <button id="pause-button" class="hud-item">PAUSE</button> 
         </header>
         
         <div id="acessibilidade-progress-bar">
@@ -38,8 +43,15 @@
         </section>
 
         <section id="options-area">
-            </section>
+        </section>
         
+        <div id="pause-screen" class="hidden">
+            <div class="pause-content">
+                <h2>JOGO PAUSADO</h2>
+                <p>>Clique em qualquer lugar para continuar.</p>
+            </div>
+        </div>
+
         <div id="game-over-screen" class="hidden">
             <h2>VITÓRIA! 100% de Acessibilidade Atingida!</h2>
             <p>Seu Saldo Final: <span id="final-saldo"></span></p>

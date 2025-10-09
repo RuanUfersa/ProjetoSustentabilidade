@@ -1,83 +1,115 @@
 // src/timer.js
+const TIME_LIMIT = 15; // Limite de 15 segundos (RF02)
+let timeRemaining = TIME_LIMIT;
+let timerInterval = null;
+let timeUpCallback = null;
 
-// Variáveis de escopo global para o módulo Timer
-const MAX_TIME = 15; // 15 segundos (RF02)
-const BONUS_TIME_LIMIT = 7; // Limite para bônus (Resposta Rápida)
-let intervalId = null;
-let timeLeft = MAX_TIME;
-let startTime = 0;
-let endTime = 0;
-
-// Elemento do HUD para exibir o tempo
 const timerDisplay = document.getElementById('timer');
 
-// Funções de retorno (callbacks) que serão executadas no app.js
-let onTimeUpCallback = () => {};
-let onTickCallback = () => {};
-
 /**
- * Inicializa e reinicia o cronômetro para um novo cenário.
- * @param {function} timeUpCallback - Função a ser chamada quando o tempo esgotar.
+ * Inicia ou reinicia o cronômetro para um novo cenário.
+ * @param {function} callback - Função a ser chamada quando o tempo esgotar.
  */
-export function startTimer(timeUpCallback) {
-    // 1. Limpa qualquer cronômetro anterior
-    clearInterval(intervalId);
+export function startTimer(callback) {
+    // 1. Limpa o intervalo anterior, se houver
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
     
-    // 2. Define o estado inicial
-    onTimeUpCallback = timeUpCallback;
-    timeLeft = MAX_TIME;
-    startTime = Date.now();
-    timerDisplay.textContent = `${MAX_TIME}s`;
+    // 2. Reseta o tempo e o callback
+    timeRemaining = TIME_LIMIT;
+    timeUpCallback = callback;
 
-    // 3. Inicia o Intervalo (Executado a cada 100ms para maior precisão)
-    intervalId = setInterval(tick, 100);
+    // 3. Atualiza o display imediatamente
+    updateTimerDisplay();
+
+    // 4. Inicia o novo intervalo (contagem regressiva)
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+
+        if (timeRemaining <= 0) {
+            stopTimer();
+            // Chama a função handleTimeUp do app.js
+            if (timeUpCallback) {
+                timeUpCallback();
+            }
+        }
+    }, 1000); // 1000ms = 1 segundo
 }
 
 /**
- * Função interna que atualiza o tempo e verifica o esgotamento.
+ * Para o cronômetro e retorna o tempo gasto.
+ * @returns {number} O tempo total gasto na pergunta.
  */
-function tick() {
-    const elapsed = (Date.now() - startTime) / 1000; // Tempo decorrido em segundos
-    timeLeft = MAX_TIME - elapsed;
-    
-    // RNF03: Estabilidade: Garante que o display não mostre valores negativos flutuantes
-    if (timeLeft <= 0.0) {
-        // Tempo Esgotado!
-        stopTimer();
-        timerDisplay.textContent = '0s';
-        onTimeUpCallback(); // Chama a função de Tempo Esgotado no app.js
-    } else {
-        // Atualiza o HUD (RUI01)
-        timerDisplay.textContent = `${timeLeft.toFixed(1)}s`;
+export function stopTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    // Retorna o tempo que o jogador levou para responder
+    return TIME_LIMIT - timeRemaining; 
+}
+
+/**
+ * Atualiza o elemento HTML com o tempo restante.
+ */
+function updateTimerDisplay() {
+    timerDisplay.textContent = `${timeRemaining}s`;
+}
+
+// ----------------------------------------------------
+// RF09: FUNÇÕES DE PAUSA E CONTINUAÇÃO (IMPLEMENTAÇÃO COMPLETA)
+// ----------------------------------------------------
+
+/**
+ * Pausa o cronômetro. (RF09)
+ */
+export function pauseTimer() {
+    if (timerInterval) {
+        // Para a contagem, mas mantém o timeRemaining intacto
+        clearInterval(timerInterval);
+        timerInterval = null;
     }
 }
 
 /**
- * Para o cronômetro ao responder ou ao esgotar o tempo.
- * @returns {number} O tempo total levado pelo jogador (em segundos).
+ * Continua o cronômetro a partir do ponto de pausa. (RF09)
  */
-export function stopTimer() {
-    clearInterval(intervalId);
-    endTime = Date.now();
-    
-    // Calcula o tempo total gasto pelo jogador
-    const totalTime = (endTime - startTime) / 1000;
-    
-    // O tempo só é válido se a resposta foi dada antes de esgotar
-    return totalTime > MAX_TIME ? MAX_TIME : totalTime;
+export function continueTimer() {
+    // Apenas continua se não houver um intervalo rodando e ainda houver tempo
+    if (!timerInterval && timeRemaining > 0) {
+        // Recria o setInterval exatamente de onde parou
+        timerInterval = setInterval(() => {
+            timeRemaining--;
+            updateTimerDisplay();
+
+            if (timeRemaining <= 0) {
+                stopTimer();
+                if (timeUpCallback) {
+                    timeUpCallback();
+                }
+            }
+        }, 1000);
+    }
 }
 
+// ----------------------------------------------------
+// RF02: FUNÇÃO DE CLASSIFICAÇÃO DE TEMPO
+// ----------------------------------------------------
+
 /**
- * Analisa o tempo levado e classifica a resposta (Rápida, Lenta, Esgotado).
- * @param {number} timeTaken - O tempo levado para responder em segundos.
- * @returns {string} Classificação: 'RÁPIDA', 'LENTA', ou 'ESGOTADO'.
+ * Classifica o tempo gasto para determinar bônus/penalidades.
+ * @param {number} timeSpent - Tempo gasto para responder (em segundos).
+ * @returns {string} Classificação ('RÁPIDA', 'LENTA', ou 'ESGOTADO').
  */
-export function getTimeClassification(timeTaken) {
-    if (timeTaken > MAX_TIME) {
-        return 'ESGOTADO';
-    } else if (timeTaken <= BONUS_TIME_LIMIT) { // <= 7 segundos
+export function getTimeClassification(timeSpent) {
+    // Regras (Baseado em "Regras/valores/Requisitos - Regras/Valores.csv")
+    if (timeSpent <= 7) {
         return 'RÁPIDA';
-    } else { // > 7 segundos e <= 15 segundos
+    } else if (timeSpent > 7 && timeSpent <= TIME_LIMIT) {
         return 'LENTA';
+    } else {
+        return 'ESGOTADO';
     }
 }
