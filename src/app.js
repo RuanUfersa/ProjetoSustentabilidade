@@ -1,4 +1,3 @@
-// src/app.js
 // IMPORTAÇÕES (RF09: Inclui pauseTimer e continueTimer)
 import { startTimer, stopTimer, getTimeClassification, pauseTimer, continueTimer } from './timer.js'; 
 import { calculateScore } from './calc.js'; // Importa a lógica de cálculo
@@ -25,7 +24,7 @@ export const getObjetoDetalhes = (id) => {
 
 
 // ----------------------------------------------------------------------
-// ESTADO GLOBAL DO JOGO
+// ESTADO GLOBAL DO JOGO VALORES USADO PARA INICIALISAR O HUD
 // ----------------------------------------------------------------------
 export const gameState = { 
     saldo: 10000.00,

@@ -19,8 +19,8 @@
     "pergunta": "Com a idade que tenho hoje, fico sem lugar para descansar ou com meu bebê no colo, é exaustivo se não houver um lugar adequado para sentar.",
     "respostaCorretaID": 3,
     "opcoes": [
-      { "objetoID": 3, "nome": "Assento Reservado" },
       { "objetoID": 2, "nome": "Assento Comum" },
+      { "objetoID": 3, "nome": "Assento Reservado" },
       { "objetoID": 6, "nome": "Cadeira para Obesos" },
       { "objetoID": 1, "nome": "Corrimão" }
     ]
@@ -45,9 +45,9 @@
     "pergunta": "Nos banheiros públicos ou rampas curtas, sinto-me sem segurança, pois não existe apoio firme para me levantar ou me locomover.",
     "respostaCorretaID": 5,
     "opcoes": [
-      { "objetoID": 5, "nome": "Barra de Apoio" },
       { "objetoID": 1, "nome": "Corrimão" },
       { "objetoID": 11, "nome": "Semáforos Sonoros" },
+      { "objetoID": 5, "nome": "Barra de Apoio" },
       { "objetoID": 4, "nome": "Porta Acessível" }
     ]
   },
@@ -58,8 +58,8 @@
     "pergunta": "Eu estou cansado de procurar um lugar para sentar e nunca encontrar algo adequado ao meu tamanho e peso.",
     "respostaCorretaID": 6,
     "opcoes": [
-      { "objetoID": 6, "nome": "Cadeira para Obesos" },
       { "objetoID": 3, "nome": "Assento Reservado" },
+      { "objetoID": 6, "nome": "Cadeira para Obesos" },
       { "objetoID": 2, "nome": "Assento Comum" },
       { "objetoID": 5, "nome": "Barra de Apoio" }
     ]
@@ -84,10 +84,10 @@
     "pergunta": "É um perigo andar sem um guia. Preciso de algum recurso que me informe sobre mudanças de direção ou obstáculos perigosos no chão.",
     "respostaCorretaID": 8,
     "opcoes": [
-      { "objetoID": 8, "nome": "Piso Tátil de Alerta" },
       { "objetoID": 9, "nome": "Sinalização em Braille/Relevo" },
       { "objetoID": 11, "nome": "Semáforos Sonoros" },
-      { "objetoID": 1, "nome": "Corrimão" }
+      { "objetoID": 1, "nome": "Corrimão" },
+      { "objetoID": 8, "nome": "Piso Tátil de Alerta" }
     ]
   },
   {
@@ -110,10 +110,10 @@
     "pergunta": "Durante a gestação e após o parto, sinto falta de um ambiente seguro e tranquilo para cuidar de mim e do meu bebê em locais públicos.",
     "respostaCorretaID": 10,
     "opcoes": [
-      { "objetoID": 10, "nome": "Sala de Amamentação" },
       { "objetoID": 3, "nome": "Assento Reservado" },
       { "objetoID": 4, "nome": "Porta Acessível" },
-      { "objetoID": 5, "nome": "Barra de Apoio" }
+      { "objetoID": 5, "nome": "Barra de Apoio" },
+       { "objetoID": 10, "nome": "Sala de Amamentação" }
     ]
   },
   {
@@ -123,10 +123,10 @@
     "pergunta": "Ao atravessar ruas movimentadas perto do parque, sinto muito medo porque não há nada que me indique o momento certo de forma audível.",
     "respostaCorretaID": 11,
     "opcoes": [
-      { "objetoID": 11, "nome": "Semáforos Sonoros" },
       { "objetoID": 8, "nome": "Piso Tátil de Alerta" },
       { "objetoID": 9, "nome": "Sinalização em Braille/Relevo" },
-      { "objetoID": 7, "nome": "Rampa de Acesso" }
+      { "objetoID": 7, "nome": "Rampa de Acesso" },
+       { "objetoID": 11, "nome": "Semáforos Sonoros" }
     ]
   },
   {
