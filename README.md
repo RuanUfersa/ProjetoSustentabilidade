@@ -1,8 +1,7 @@
 # ProjetoSustentabilidade
 Projeto da Disciplina de Métodos Formais que atende a ODS 11.7
-
-# Gerenciamento de Acessibilidade Urbana
-
+-----------------------------------------------------------
+Documentação de Software na Versão:1.2
 -----------------------------------------------------------
 # Definição do Projeto: Jogo Interativo de Acessibilidade
 -----------------------------------------------------------
@@ -48,11 +47,12 @@ O jogo é composto por 11 cenários, nos quais diferentes perfis de usuários (g
 | **RF01** | Cenários | Exibe o perfil do usuário, o ícone correspondente e a pergunta. |
 | **RF02** | Cronômetro | Contagem regressiva de 15 segundos para resposta. Classifica o tempo como "RÁPIDO" (≤ 7s) ou "LENTO" (> 7s). |
 | **RF03** | Selecionar Resposta | O sistema deve exibir as opções de resposta disponíveis (objetos de acessibilidade) e permitir que o jogador selecione uma delas. |
-| **RF04** | Gestão de Saldo | O Saldo inicial é de R$ 10.000,00. **Correta/Incorreta:** Débito do Custo do Objeto Correto. **Bônus RÁPIDO:** Saldo recebe bônus por acerto rápido. **Fim de Jogo:** O Saldo negativo encerra o jogo por Falência. |
+| **RF04** | Gestão de Saldo | O Saldo inicial é de R$ 1.000,00. **Correta/Incorreta:** Débito do Custo do Objeto Correto. **Bônus RÁPIDO:** Saldo recebe bônus por acerto rápido. **Fim de Jogo:** O Saldo negativo encerra o jogo por Falência. |
 | **RF05** | Satisfação | **Correta:** Aumenta pela Pontuação do Objeto Correto. **Incorreta/Esgotado:** Diminui pela Pontuação do Objeto Correto. |
 | **RF06** | Acessibilidade | Aumenta em `(100 / Total de Cenários)` por acerto correto. **Vitória:** 100% encerra o jogo. |
 | **RF07** | Reaparecimento | A cada 2 perguntas respondidas, se houver respostas incorretas, a primeira incorreta é repetida para fixação. |
 | **RF09** | Pausa do Jogo | Implementação de uma tela de pausa que congela o cronômetro e o estado do jogo. O retorno é feito clicando na tela de sobreposição. |
+| **RF10** | Recomeço da Partida | O sistema deve prover um botão na tela de Fim de Jogo  que, quando acionado, reinicia o jogo para o estado inicial, permitindo ao usuário jogar novamente. |
 
 ## Estrutura do Projeto
 
@@ -67,3 +67,131 @@ O jogo é composto por 11 cenários, nos quais diferentes perfis de usuários (g
 | `assets/` | Pasta para todos os recursos (imagens, ícones de perfil, etc.). |
 
 
+--------------------------
+# Diagrama de Casos de Uso
+--------------------------
+```mermaid
+graph TD
+    %% Define os Atores
+    actor_j[Jogador]
+    actor_s[Sistema]
+
+    %% Define o Contêiner e os Casos de Uso
+    subgraph Sistema: Acessibilidade para Todos
+        uc1(UC1: Iniciar Partida)
+        uc2(UC2: Visualizar HUD)
+        uc3(UC3: Responder Cenário)
+        uc4(UC4: Gerenciar Estado)
+        uc5(UC5: Pausar/Continuar)
+        uc6(UC6: Encerrar Partida)
+        uc7(UC7: Reiniciar Partida)
+    end
+
+    %% Relações do Jogador e Fluxo Principal (Associações e Includes)
+    actor_j --> uc1
+    actor_j --> uc3
+    actor_j --> uc5
+    actor_j --> uc7
+
+    uc1 --> uc2
+    uc3 --> uc4
+    uc4 --> uc2
+
+    %% Relações Conditionais (Extend) - Sintaxe Limpa
+    uc4 --> uc6
+    uc4 -.- uc6
+    uc4 -.-> uc6(Encerrar Partida)
+
+    uc4 -.-> uc6
+    linkStyle 10 stroke-dasharray: 5 5
+    
+    uc4 -.-> uc6
+    linkStyle 10 stroke-dasharray: 5 5
+
+    %% Relações Conditionais (Extend) - Sintaxe Limpa
+    uc4 -.-> uc6
+    uc5 -.-> uc4
+    
+    %% Reinício e Atores Secundários
+    uc6 --> uc7
+    uc7 --> uc1
+    actor_s --> uc4
+ ```
+ --------------------------
+ # Diagrama de Classe
+ --------------------------
+ ```mermaid
+classDiagram
+    direction LR
+
+    %% ----------------------------------
+    %% CLASSES DE DADOS (Estruturas de Objeto)
+    %% ----------------------------------
+    class GameState {
+        + float saldo
+        + int satisfacao
+        + float acessibilidade
+        + list perguntasIncorretas
+        + int nextCenarioIndex
+        + int reappearanceCounter
+        + boolean isPaused
+    }
+    
+    class ObjetoAcessibilidade {
+        + int id
+        + string nome
+        + int pontuacao
+        + float custo
+    }
+    
+    class Cenario {
+        + int id
+        + string pergunta
+        + string icone
+        + list opcoes
+        + int respostaCorretaID
+    }
+    
+    %% Relação: Catálogo de Objetos é usado pelos Cenários (Opções)
+    ObjetoAcessibilidade "1" -- "N" Cenario : Opções Usam >
+
+    %% ----------------------------------
+    %% CLASSES DE CONTROLE (Módulos JS)
+    %% ----------------------------------
+    class GameController {
+        + updateHUD()
+        + loadScenario()
+        + handleAnswer()
+        + processAnswer()
+        + togglePause()
+        + endGame()
+    }
+    
+    class ScoreCalculator {
+        + calculateScore(ID, Class, isCorrect)
+    }
+
+    class TimerController {
+        + startTimer(callback)
+        + stopTimer()
+        + pauseTimer()
+        + continueTimer()
+    }
+
+    %% ----------------------------------
+    %% RELAÇÕES DE DEPENDÊNCIA
+    %% ----------------------------------
+
+    %% O GameController gerencia o estado e depende dos dados
+    GameController "1" --> "1" GameState : Gerencia o status do jogo >
+    GameController "1" --> "N" Cenario : Usa/Carrega >
+    GameController ..> ObjetoAcessibilidade : <<getObjetoDetalhes>>
+
+    %% O Controlador de Jogo (app.js) aciona as outras classes/módulos
+    GameController --> ScoreCalculator : Usa para cálculo >
+    GameController --> TimerController : Controla o cronômetro >
+
+    %% O ScoreCalculator precisa dos dados do Objeto e do Estado
+    ScoreCalculator ..> ObjetoAcessibilidade : Usa catálogo >
+    ScoreCalculator "1" --> "1" GameState : Altera o status do jogo >
+```
