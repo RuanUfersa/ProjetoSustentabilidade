@@ -164,7 +164,7 @@ body {
     font-weight: bold;
 }
 
-/* TELA DE FIM DE JOGO */
+/* TELA DE FIM DE JOGO 
 #game-over-screen {
     position: fixed;
     top: 0;
@@ -179,6 +179,7 @@ body {
     align-items: center;
     z-index: 100;
 }
+ */
 
 /* ---------------------------------------------------- */
 /* RF09: TELA DE PAUSA */
@@ -240,4 +241,107 @@ body {
         width: 90%;
         padding: 15px;
     }
+}
+
+
+/* ---------------------------------------------------- */
+/* fim código riginal */
+/* ---------------------------------------------------- */
+
+
+/* ---------------------------------------------------- */
+/* ESTILOS DE SOBREPOSIÇÃO (PAUSA E FIM DE JOGO) */
+/* ---------------------------------------------------- */
+
+/* Garante que os elementos iniciais ocultos permaneçam ocultos, mesmo com flexbox */
+.hidden {
+    display: none !important;
+}
+
+/* Base para as Telas de Pausa e Fim de Jogo */
+#pause-screen, #game-over-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    color: white; /* Texto legível */
+}
+
+/* Estilo para a TELA DE PAUSA */
+#pause-screen {
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    text-align: center;
+}
+
+.pause-content h2 {
+    font-size: 2.5em;
+    color: #3498db; 
+    margin-bottom: 10px;
+}
+
+.pause-content p {
+    font-size: 1.2em;
+}
+
+
+/* ESTILO DE VITÓRIA (RF08) */
+#game-over-screen {
+    /* Imagem de Fundo de Vitória/Acessibilidade */
+    background-image: url('../images/iconeacessibilidade.png');
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: multiply; /* Escurece a imagem para o texto ser legível */
+    background-color: rgba(0, 52, 100, 0.7); /* Cor de Vitória Verde escura */
+    
+    flex-direction: column;
+}
+
+.game-over-content {
+    background-color: rgba(0, 0, 0, 0.85); 
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0, 204, 255, 0.7); 
+    max-width: 90%;
+}
+
+/* Título (h2) - Empolgação! */
+#game-over-screen h2 {
+    color: #a5af4c;
+    font-size: 3em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #c8ff03;
+    animation: pulse 1.5s infinite alternate;
+}
+
+/* Animação de Pulsação */
+@keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+}
+
+/* Botão de Recomeçar (Estilo de Destaque) */
+#restart-button {
+    background-color: #2196F3; 
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+#restart-button:hover {
+    background-color: #0d83e3;
 }

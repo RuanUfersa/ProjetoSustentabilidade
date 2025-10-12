@@ -17,7 +17,7 @@
             </div>
             <div class="hud-item">
                 <span class="label">Saldo:</span>
-                <span id="saldo" class="value">R$ 10.000,00</span>
+                <span id="saldo" class="value">R$ 1.000,00</span>
             </div>
             <div class="hud-item">
                 <span class="label">Satisfação:</span>
@@ -48,17 +48,24 @@
         <div id="pause-screen" class="hidden">
             <div class="pause-content">
                 <h2>JOGO PAUSADO</h2>
-                <p>>Clique em qualquer lugar para continuar.</p>
+                <p>Clique em qualquer lugar para continuar.</p>
             </div>
         </div>
-
-        <div id="game-over-screen" class="hidden">
-            <h2>VITÓRIA! 100% de Acessibilidade Atingida!</h2>
+    </main>
+    
+    <div id="game-over-screen" class="hidden">
+        <div class="game-over-content">
+            <h2>FIM DE JOGO</h2> 
+            
             <p>Seu Saldo Final: <span id="final-saldo"></span></p>
             <p>Sua Satisfação Final: <span id="final-satisfacao"></span></p>
-        </div>
 
-    </main>
+            <button id="restart-button" onclick="window.location.reload()">
+                JOGAR NOVAMENTE
+            </button>
+        </div>
+    </div>
+
 
     <script src="src/app.js" type="module"></script>
     <script src="src/timer.js" type="module"></script>
