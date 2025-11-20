@@ -1,0 +1,107 @@
+digraph G {
+    // =============================================================
+    // CONFIGURAÇÃO GLOBAL
+    // =============================================================
+    rankdir=TB;          // Direção Topo -> Base
+    splines=ortho;       // Linhas Ortogonais (Retas)
+    nodesep=1.2;         // Espaçamento lateral (Generoso para evitar cruzar linhas)
+    ranksep=1.0;         // Espaçamento vertical
+    fontname="Arial";
+    fontsize=10;
+    
+    // =============================================================
+    // ESTILO DOS LUGARES (Círculos - Places)
+    // =============================================================
+    // margin=0.0: Garante que a seta toque a borda exata do círculo
+    node [shape=circle, style="filled", fillcolor=white, fixedsize=true, width=0.8, fontname="Arial", fontsize=9, margin=0.0, penwidth=1.0, color=black];
+
+    // Eixo Central
+    Pstart       [label="P_start"];
+    Pcenario     [label="P_cenario"];
+    PnextCenario [label="P_next"];
+    Pwin         [label="P_win"];
+    Pfail        [label="P_fail"];
+
+    // Lado Direito (Recursos/Sucesso)
+    Psaldo       [label="P_saldo"];
+    Pprog        [label="P_prog"];
+
+    // Lado Esquerdo (Erro/Reaparecimento)
+    Perro        [label="P_erro"];
+    Preap        [label="P_reap"];
+
+    // =============================================================
+    // ESTILO DAS TRANSIÇÕES (Retângulos - Transitions)
+    // =============================================================
+    // O TRUQUE DO ESPAÇAMENTO:
+    // color=white e penwidth=3.0 criam uma borda invisível grossa.
+    // A seta bate na borda branca e para, criando o espaço visual de ~3px.
+    node [shape=box, style="filled, solid", fillcolor=black, color=white, penwidth=3.0, height=0.1, width=1.3, label="", fixedsize=true];
+    
+    Tload  [xlabel="T_load"];
+    Tcheck [xlabel="T_check"];
+    Tacert [xlabel="T_acert"];
+    Terr   [xlabel="T_err"];
+    Ttime  [xlabel="T_time"];
+    Treap  [xlabel="T_reap"];
+
+    // =============================================================
+    // ARCOS E CONECTIVIDADE (Lógica de Portas)
+    // =============================================================
+    // arrowsize=0.9: Seta grande para não sumir na borda
+    edge [fontname="Arial", fontsize=8, arrowsize=0.9, arrowhead=normal, dir=forward]; 
+
+    // --- 1. Início do Jogo ---
+    Pstart:s -> Tload:n [label="1"];
+    Tload:s  -> Pcenario:n [label="1"];
+    Tload:e  -> PnextCenario:n [label="1"];
+
+    // --- 2. Decisão (Distribuição Lateral) ---
+    // Sai Leste -> Acerto (Direita)
+    Pcenario:e  -> Tacert:w [label="1"];       
+    // Sai Oeste -> Erro (Esquerda)
+    Pcenario:w  -> Terr:e [label="1"];         
+    // Sai Sudoeste -> Tempo (Esquerda/Baixo)
+    Pcenario:sw -> Ttime:n [label="1"];       
+
+    // --- 3. T_acert (Fluxo de Sucesso - Direita) ---
+    Tacert:e -> Pprog:n [label="+Acess"];     // Sai ponta direita
+    Tacert:s -> Psaldo:ne [label="Bonus"];    // Sai meio-sul
+    
+    // --- 4. T_err (Fluxo de Erro - Esquerda) ---
+    Terr:w  -> Perro:n [label="1"];            // Sai ponta esquerda
+    Terr:sw -> Preap:n [label="1"];            // Sai canto sudoeste
+    Terr:s  -> Psaldo:nw [label="-Custo"];     // Sai sul -> Saldo (Centro)
+
+    // --- 5. T_time (Fluxo de Tempo - Esquerda Baixo) ---
+    Ttime:w  -> Perro:ne [label="1"];
+    Ttime:sw -> Preap:ne [label="1"];
+    Ttime:s  -> Psaldo:w [label="-Custo"];
+
+    // --- 6. CONEXÃO CRÍTICA: T_check (Central) ---
+    // As setas chegam em pontos distintos do retângulo largo
+    Tacert:se -> Tcheck:ne [label="1"]; // Chega topo-direita
+    Terr:se   -> Tcheck:nw [label="1"]; // Chega topo-esquerda
+    Ttime:se  -> Tcheck:n [label="1"];  // Chega topo-centro
+
+    // --- 7. Saídas de T_check (Verificação) ---
+    Tcheck:se -> Pwin:n [label="Win"];
+    Tcheck:sw -> Pfail:n [label="Fail"];
+    Tcheck:e  -> Pcenario:se [label="Next > 0"]; // Loop pela direita
+    Tcheck:w  -> Pstart:w [label="Reset"];       // Loop longo pela esquerda
+
+    // --- 8. Lógica de Reaparecimento ---
+    Perro:s -> Treap:n [label=">2"];
+    Preap:s -> Treap:nw [label="1"];
+    Treap:e -> Pcenario:nw [label="Retorna"];
+
+    // =============================================================
+    // ALINHAMENTO (RANKS)
+    // =============================================================
+    // Garante que os nós fiquem na mesma altura horizontal
+    { rank=same; Pstart; PnextCenario; }
+    { rank=same; Pcenario; Tacert; Terr; }
+    { rank=same; Perro; Preap; Psaldo; Pprog; }
+    { rank=same; Tcheck; Ttime; }
+    { rank=same; Pwin; Pfail; Treap; }
+}

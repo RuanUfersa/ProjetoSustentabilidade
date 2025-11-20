@@ -1,4 +1,3 @@
-// src/timer.js
 const TIME_LIMIT = 15; // Limite de 15 segundos (RF02)
 let timeRemaining = TIME_LIMIT;
 let timerInterval = null;

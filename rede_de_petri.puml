@@ -1,0 +1,70 @@
+@startuml petri
+skinparam style strict
+hide empty description
+
+' ----------------------------------------------------
+' Lugares (Places - Círculos)
+' ----------------------------------------------------
+circle Pstart as "Jogo Inicializado" #lightgreen
+circle Pcenario as "Aguardando Decisão" #lightblue
+circle Psaldo as "Saldo Atual"
+circle Perro as "Perguntas Incorretas"
+circle Pprog as "Progresso Acessibilidade"
+circle Pwin as "Vitória" #gold
+circle Pfail as "Falência" #red
+circle Preap as "Cenário para Reaparecer" #lightgray
+circle PnextCenario as "Próximo Cenário Disponível" #lightyellow
+
+
+' ----------------------------------------------------
+' Transições (Transitions - Retângulos)
+' ----------------------------------------------------
+rectangle Tload as "T_load (Carregar Cenário)"
+rectangle Tacert as "T_acert (Resposta Correta)"
+rectangle Terr as "T_err (Resposta Incorreta)"
+rectangle Ttime as "T_time (Tempo Esgotado)"
+rectangle Tcheck as "T_check (Verificar Fim de Jogo)"
+rectangle Treap as "T_reap (Apresentar Reaparecimento)"
+
+
+' ----------------------------------------------------
+' Arcos (Fluxo)
+' ----------------------------------------------------
+
+' --- Início do Jogo ---
+Pstart --> Tload : 1 token
+Tload --> Pcenario : 1 token
+Tload --> PnextCenario : 1 token
+
+' --- Respostas ---
+Pcenario --> Tacert : 1 token
+Tacert --> Psaldo : -Custo, +Bonus
+Tacert --> Pprog : +DeltaAcess
+Tacert --> Tcheck : 1 token
+
+Pcenario --> Terr : 1 token
+Terr --> Psaldo : -Custo
+Terr --> Perro : +1 token
+Terr --> Preap : 1 token
+Terr --> Tcheck : 1 token
+
+Pcenario --> Ttime : 1 token
+Ttime --> Psaldo : -Custo
+Ttime --> Perro : +1 token
+Ttime --> Preap : 1 token
+Ttime --> Tcheck : 1 token
+
+
+' --- Lógica de Reaparecimento (RF07) ---
+Perro --> Treap : >2 tokens {Guarda}
+Preap --> Treap : 1 token {Cenário na Fila}
+Treap --> Pcenario : 1 token
+
+
+' --- Verificação de Fim de Jogo (T_check) ---
+Tcheck --> Pwin : [Pprog >= 99.9]
+Tcheck --> Pfail : [Psaldo < 0]
+Tcheck --> Pcenario : [PnextCenario > 0] {Continua}
+Tcheck --> Pstart : [PnextCenario == 0 && Pprog < 99.9] {Fim dos Cenários}
+
+@enduml

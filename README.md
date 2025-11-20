@@ -195,3 +195,55 @@ classDiagram
     ScoreCalculator ..> ObjetoAcessibilidade : Usa catálogo >
     ScoreCalculator "1" --> "1" GameState : Altera o status do jogo >
 ```
+
+## Especificação Formal do Projeto: Análise Estrutural e Comportamental
+
+Este projeto utiliza duas abordagens de modelagem distintas para documentar a **estrutura estática** e o **comportamento dinâmico** do sistema, garantindo a qualidade e a capacidade de análise do software.
+
+
+###  Rede de Petri em Métodos Formais
+
+| Componente | Arquivo de Origem |
+| :---: | :---: |
+| Comportamento Dinâmico | `rede_de_petre.puml` |
+| Comportamento Dinâmico | `diagrama.puml` |
+
+Este arquivo contém o **código DOT (Graphviz)** que define o **Diagrama de Rede de Petri**, uma técnica de **métodos formais** utilizada para modelar e analisar sistemas dinâmicos, como o fluxo de estados e recursos do seu jogo. Os **componentes** primários são os **Lugares** ($P$, círculos) que representam **estados** ou **recursos** (ex: $P_{saldo}$, $P_{cenario}$) e as **Transições** ($T$, retângulos finos) que representam **eventos** ou **ações** (ex: $T_{acert}$, $T_{check}$). O estado atual do sistema é dado pela **Marcação**, que é a distribuição de **Fichas** (*tokens*) nos Lugares.
+
+O **comportamento** modelado é a **dinâmica** do sistema, ou seja, *quando* e *como* as mudanças de estado ocorrem. Uma Transição só pode ser **disparada** se todos os seus Lugares de entrada contiverem o número suficiente de Fichas, respeitando as **Guardas** nos arcos. O disparo consome Fichas dos Lugares de entrada e produz Fichas nos Lugares de saída, modelando o fluxo de controle e a transformação de recursos. Este modelo permite provar propriedades críticas do jogo, como vivacidade e ausência de *deadlocks*.
+
+<img src="out/rede_de_petri/petri.png" alt="Diagrama da Rede de Petri em Layout Ortogonal" width="100%"/>
+
+### Representação no formato Tradicional 
+
+<img src="out/diagrama/diagrama.png" alt="Diagrama da Rede de Petri Modelagem Tradicional" width="100%"/>
+
+
+
+
+ 
+ # Diagramas Didáticos de Cenários (Códigos DOT)
+ 
+ Para simplificar e focar na didática, apliquei o estilo tradicional (círculo/barra) usaremos o layout padrão (dot) para clareza e separação rápida.Facilitando a comprenção por cenários do Jogo aplicados em rede de petri tradicionais.
+ 
+
+ ### 1. Cenário: Ação Bem-Sucedida ($T_{acert}$)
+ Este cenário de teste modela uma interação do jogador que resulta em sucesso. Quando a transição $T_{acert}$ dispara, o sistema consome uma unidade do recurso $P_{cenario}$ (encerrando a situação atual) e realiza o aumento do recurso $P_{prog}$ (progresso) e a atualização do $P_{saldo}$ com o bônus menos o custo da jogada. O comportamento essencial é o fluxo de uma única ficha para $T_{check}$, indicando que a jogada foi concluída e o sistema deve avançar para a próxima etapa de verificação de fim de jogo.
+
+ <img src="out/cenarios/cenario_1.png" alt="Ação Bem-Sucedida" width="100%"/>
+ 
+ ### 2. Cenário: Ação com Erro ou Tempo Esgotado ($T_{err}$ / $T_{time}$)
+ Este cenário modela uma interação do jogador que resulta em falha, seja por uma resposta incorreta ($T_{err}$) ou por expiração de tempo ($T_{time}$). O disparo consome o $P_{cenario}$ e debita o custo no $P_saldo$. O comportamento central é a produção simultânea de fichas nos lugares $P_{erro}$ e $P_{reap}$ (reaparecimento), registrando a falha e preparando o sistema para o possível re-enfileiramento do cenário, conforme especificado no Requisito Funcional (RF) de reaparecimento.
+
+ <img src="out/cenarios/cenario_2.png" alt=" Ação com Erro ou Tempo Esgotado" width="100%"/>
+ 
+  ### 3. Cenário: Lógica de Reaparecimento (RF07)
+  Este cenário isola a lógica de repetição de cenário por excesso de falhas. A transição $T_{reap}$ só pode ser disparada se a marcação de $P_{erro}$ for maior que 2 (a guarda $[>2]$ é satisfeita) E houver uma ficha em $P_{reap}$ (indicando um cenário passível de repetição). O disparo de $T_{reap}$ consome as fichas de erro e reaparecimento e produz uma ficha de volta em $P_{cenario}$, garantindo que o cenário problemático seja reinserido no sistema para nova tentativa, conforme a regra de mitigação de falhas.
+
+  <img src="out/cenarios/cenario_3.png" alt=" Lógica de Reaparecimento" width="100%"/>
+ 
+  ### 4. Cenário: Verificação de Fim de Jogo ($T_{check}$)
+  Este cenário define as condições de término e avanço após qualquer jogada ($T_{acert}$, $T_{err}$ ou $T_{time}$). A transição $T_{check}$ (Verificar) é o ponto de convergência de todos os fluxos de jogada. A partir dela, o sistema ramifica-se em quatro fluxos mutuamente exclusivos (apenas um pode ocorrer por vez), controlados por guardas (ex: $P_{prog} \ge 99.9$ para $P_{win}$ ou $P_{saldo} < 0$ para $P_{fail}$). Este cenário assegura a progressão correta para o próximo cenário ($P_{cenario}$) ou o término formal do jogo ($P_{win}$, $P_{fail}$ ou $P_{start}$).
+
+  <img src="out/cenarios/cenario_4.png" alt=" Verificação de Fim de Jogo" width="100%"/>
+

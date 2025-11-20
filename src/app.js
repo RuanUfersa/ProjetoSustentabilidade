@@ -1,6 +1,5 @@
-// IMPORTAÇÕES (RF09: Inclui pauseTimer e continueTimer)
 import { startTimer, stopTimer, getTimeClassification, pauseTimer, continueTimer } from './timer.js'; 
-import { calculateScore } from './calc.js'; // Importa a lógica de cálculo
+import { calculateScore } from './calc.js'; 
 
 // ----------------------------------------------------------------------
 // CATÁLOGO DE OBJETOS (RF04/RF05 PREP: FUNÇÃO EXPORTADA para calc.js)

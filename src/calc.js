@@ -1,4 +1,3 @@
-// Importa o estado do jogo e o catálogo de objetos do app.js
 import { gameState, getObjetoDetalhes } from './app.js'; // AGORA IMPORTA getObjetoDetalhes!
 
 /**

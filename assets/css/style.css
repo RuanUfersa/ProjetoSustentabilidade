@@ -17,7 +17,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
-    position: relative; /* Importante para z-index, embora a pausa seja fixed */
+    position: relative;
 }
 
 /* HUD (RUI01) */
@@ -25,22 +25,21 @@ body {
     display: flex;
     justify-content: space-around;
     padding: 15px;
-    background-color: #2c3e50; /* Azul Escuro */
+    background-color: #2c3e50;
     color: #ecf0f1;
     font-size: 1.1em;
     font-weight: bold;
-    /* Adicionado: Garante que os itens, incluindo o botão, estejam centralizados verticalmente */
     align-items: center; 
 }
 
 .hud-item .label {
     margin-right: 5px;
-    color: #bdc3c7; /* Cinza claro */
+    color: #bdc3c7; 
 }
 
 /* BOTÃO DE PAUSA (RF09) */
 #pause-button {
-    background-color: #e67e22; /* Laranja */
+    background-color: #e67e22;
     color: white;
     border: none;
     padding: 8px 15px;
@@ -52,7 +51,7 @@ body {
 }
 
 #pause-button:hover {
-    background-color: #d35400; /* Laranja mais escuro no hover */
+    background-color: #d35400; 
 }
 
 
@@ -70,8 +69,8 @@ body {
 
 #progress-fill {
     height: 100%;
-    width: 0%; /* Controlado via JS */
-    background-color: #27ae60; /* Verde */
+    width: 0%;
+    background-color: #27ae60;
     position: absolute;
     top: 0;
     left: 0;
@@ -87,7 +86,7 @@ body {
 #scenario-area {
     position: relative;
     width: 100%;
-    height: 400px; /* Altura fixa para simular o parque */
+    height: 400px;
     overflow: hidden;
 }
 
@@ -102,7 +101,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(44, 62, 80, 0.95); /* Caixa semi-transparente para destaque */
+    background-color: rgba(44, 62, 80, 0.95); 
     color: white;
     padding: 20px;
     border-radius: 10px;
@@ -142,19 +141,19 @@ body {
 }
 
 .option-button.correct {
-    border-color: #27ae60; /* Verde - Feedback Visual RUI02 */
+    border-color: #27ae60; 
     background-color: #e8f5e9; 
 }
 
 .option-button.incorrect {
-    border-color: #e74c3c; /* Vermelho - Feedback Visual RUI02 */
+    border-color: #e74c3c; 
     background-color: #ffebee;
 }
 
 .option-cost {
     display: block;
     font-size: 0.9em;
-    color: #e67e22; /* Laranja para custo */
+    color: #e67e22;
     margin-top: 5px;
     font-weight: bold;
 }
@@ -164,47 +163,27 @@ body {
     font-weight: bold;
 }
 
-/* TELA DE FIM DE JOGO 
-#game-over-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-}
- */
-
-/* ---------------------------------------------------- */
 /* RF09: TELA DE PAUSA */
-/* ---------------------------------------------------- */
 #pause-screen {
-    /* Configurações de sobreposição (o mesmo que a tela de Game Over) */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Fundo um pouco mais claro que o game over */
+    background-color: rgba(0, 0, 0, 0.8); 
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 101; /* Z-index um pouco maior para garantir que cubra tudo */
-    backdrop-filter: blur(5px); /* Efeito sutil de desfoque */
+    z-index: 101;
+    backdrop-filter: blur(5px);
     text-align: center;
 }
 
 .pause-content h2 {
     font-size: 2.5em;
-    color: #3498db; /* Destaque em azul */
+    color: #3498db; 
     margin-bottom: 10px;
 }
 
@@ -219,16 +198,14 @@ body {
 /* RESPONSIVIDADE (RNF02) */
 @media (max-width: 768px) {
     #hud-bar {
-        /* Permite que o botão de pause flua melhor */
         flex-wrap: wrap; 
         gap: 10px;
     }
     .hud-item {
-        width: 45%; /* Itens ocupam metade da largura em telas menores */
+        width: 45%;
         text-align: center;
     }
-    /* O botão de pause pode ocupar 100% ou metade, dependendo do design. 
-       Aqui, ele se ajusta ao item padrão: */
+  
     #pause-button {
         width: 45%;
         margin: 0 auto;
@@ -243,22 +220,11 @@ body {
     }
 }
 
-
-/* ---------------------------------------------------- */
-/* fim código riginal */
-/* ---------------------------------------------------- */
-
-
-/* ---------------------------------------------------- */
 /* ESTILOS DE SOBREPOSIÇÃO (PAUSA E FIM DE JOGO) */
-/* ---------------------------------------------------- */
-
-/* Garante que os elementos iniciais ocultos permaneçam ocultos, mesmo com flexbox */
 .hidden {
     display: none !important;
 }
 
-/* Base para as Telas de Pausa e Fim de Jogo */
 #pause-screen, #game-over-screen {
     position: fixed;
     top: 0;
@@ -269,10 +235,9 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    color: white; /* Texto legível */
+    color: white;
 }
 
-/* Estilo para a TELA DE PAUSA */
 #pause-screen {
     background-color: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(5px);
@@ -292,13 +257,12 @@ body {
 
 /* ESTILO DE VITÓRIA (RF08) */
 #game-over-screen {
-    /* Imagem de Fundo de Vitória/Acessibilidade */
     background-image: url('../images/iconeacessibilidade.png');
     background-size: cover; 
     background-position: center;
     background-repeat: no-repeat;
-    background-blend-mode: multiply; /* Escurece a imagem para o texto ser legível */
-    background-color: rgba(0, 52, 100, 0.7); /* Cor de Vitória Verde escura */
+    background-blend-mode: multiply; 
+    background-color: rgba(0, 52, 100, 0.7); 
     
     flex-direction: column;
 }
@@ -312,7 +276,6 @@ body {
     max-width: 90%;
 }
 
-/* Título (h2) - Empolgação! */
 #game-over-screen h2 {
     color: #a5af4c;
     font-size: 3em;
@@ -322,13 +285,11 @@ body {
     animation: pulse 1.5s infinite alternate;
 }
 
-/* Animação de Pulsação */
 @keyframes pulse {
     from { transform: scale(1); }
     to { transform: scale(1.05); }
 }
 
-/* Botão de Recomeçar (Estilo de Destaque) */
 #restart-button {
     background-color: #2196F3; 
     color: white;
